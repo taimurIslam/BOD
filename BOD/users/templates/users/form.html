@@ -1,0 +1,47 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+				<div class="span9">
+					<div class="content">
+
+						<div class="module">
+							<div class="module-head">
+								<h3>{{heading_title}}</h3>
+							</div>
+							<div class="module-body">
+
+										<form class="form-horizontal row-fluid" method="post" enctype="multipart/form-data" action="" novalidate>
+										{%csrf_token%}
+
+                                        {% if form.non_field_errors %}
+                                            {{ form.non_field_errors }}
+                                        {% endif %}
+
+										{% for fields in form %}
+
+										<div class="control-group">
+											<label class="control-label" for="{{ field.id_for_label }}">{{fields.label}}</label>
+											<div class="controls">
+												{{fields}}
+											</div>
+										</div>
+                                        {% if fields.errors %}
+                                                {{ fields.errors }}
+                                        {% endif %}
+										{% endfor %}
+										<div class="control-group">
+											<div class="controls">
+												<button type="submit" class="btn btn-primary active" >{{button}}</button>
+											</div>
+										</div>
+									</form>
+							</div>
+						</div>
+
+
+
+					</div><!--/.content-->
+				</div><!--/.span9-->
+{% endblock %}

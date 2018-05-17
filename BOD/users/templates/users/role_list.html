@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+                            <div class="module">
+                                <div class="module-head">
+                                    <h3>
+                                        DataTables
+                                    </h3><br>
+
+                                    <a href="{%url 'users:add_role'%}" class="btn btn-primary active">+ Add New Role</a>
+                                </div>
+                               {% include 'include/message_template.html' %}
+
+                                <div class="module-body table">
+                                    <table cellpadding="0" cellspacing="0" border="0" class="datatable-1 table table-bordered table-striped	 display"
+                                        width="100%">
+                                        <thead>
+                                            <tr>
+                                                  <th>Role Title </th>
+
+                                                   <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        {% for role in roles %}
+                                        <tbody>
+                                            <tr class="odd gradeX">
+                                                <td>{{ role.role_title }}</td>
+                                                <td class="center">
+                                                    <a href="#" class="btn btn-primary">Details</a>
+                                                    <a href="{%url 'users:edit_role' role.id %}" class="btn btn-info">Edit</a>
+                                                    <a href="{%url 'users:delete_role' role.id %}" class="btn btn-danger">Delete</a>
+
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Role Title </th>
+
+                                                   <th>Action</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+
+{% endblock %}

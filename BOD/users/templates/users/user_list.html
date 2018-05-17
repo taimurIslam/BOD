@@ -1,0 +1,100 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+                            <div class="module">
+                                <div class="module-head">
+                                    <h3>
+                                        DataTables
+                                    </h3><br>
+
+                                    <a href="{%url 'users:registration'%}" class="btn btn-primary active">+ Add New User</a>
+                                </div>
+                                {% if messages %}
+        					        {% for message in messages %}
+            					        <div class="alert-dismissable fade in alert alert-{% if message.level_tag == 'error' %}danger{% endif %}" role="alert">
+                				        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                				    {{message.message}}
+            					        </div>
+        					        {% endfor %}
+    					        {% endif %}
+
+                                <div class="module-body table">
+                                    <table cellpadding="0" cellspacing="0" border="0" class="datatable-1 table table-bordered table-striped	 display"
+                                        width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Photo
+                                                </th>
+                                                <th>
+                                                    Name
+                                                </th>
+                                                <th>
+                                                    Username
+                                                </th>
+                                                <th>
+                                                    Phone
+                                                </th>
+                                                <th>
+                                                    Email
+                                                </th>
+                                                <th>
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        {% for user in users %}
+                                        <tbody>
+                                            <tr class="odd gradeX">
+                                                <td>
+                                                    <img src="{% static '' %}{{user.photo}}" height="60" width="60">
+                                                </td>
+                                                <td>
+                                                    {{user.first_name}}
+                                                </td>
+                                                <td>
+                                                    {{user.username}}
+                                                </td>
+                                                <td class="center">
+                                                    {{user.phone}}
+                                                </td>
+                                                <td class="center">
+                                                    {{user.email}}
+                                                </td>
+                                                <td class="center">
+                                                    <a href="#" class="btn btn-primary">Details</a>
+                                                    <a href="{% url 'users:user_edit' user.id %}" class="btn btn-info">Edit</a>
+                                                    <a href="{% url 'users:user_delete' user.id %}" class="btn btn-danger">Delete</a>
+
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>
+                                                    Photo
+                                                </th>
+                                                <th>
+                                                    Name
+                                                </th>
+                                                <th>
+                                                    Username
+                                                </th>
+                                                <th>
+                                                    Phone
+                                                </th>
+                                                <th>
+                                                    Email
+                                                </th>
+                                                <th>
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+
+{% endblock %}

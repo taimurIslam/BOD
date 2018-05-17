@@ -1,0 +1,47 @@
+
+        <!-- /navbar -->
+        <div class="wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="span3">
+                        <div class="sidebar">
+
+
+
+                            <ul class="widget widget-menu unstyled">
+                                <li><a class="collapsed" data-toggle="collapse" href="#togglePages1"><i class="menu-icon icon-cog">
+                                </i><i class="icon-chevron-down pull-right"></i><i class="icon-chevron-up pull-right">
+                                </i>Users </a>
+                                    <ul id="togglePages1" class="collapse unstyled">
+                                        <li><a href="other-login.html"><i class="icon-inbox"></i>Login </a></li>
+                                        <li><a href="other-user-profile.html"><i class="icon-inbox"></i>Profile </a></li>
+                                        <li><a href="{% url 'users:user_list' %}"><i class="icon-inbox"></i>All Users </a></li>
+                                        <li><a href="{% url 'users:roles_list' %}"><i class="icon-inbox"></i>Role </a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="{% url 'users:logout' %}"><i class="menu-icon icon-signout"></i>Logout </a></li>
+                            </ul>
+
+                            <ul class="widget widget-menu unstyled">
+                                <li><a class="collapsed" data-toggle="collapse" data-toggle="collapse" href="#togglePages2"><i class="menu-icon icon-cog">
+                                </i><i class="icon-chevron-down pull-right"></i><i class="icon-chevron-up pull-right">
+                                </i>Projects </a>
+                                    <ul id="togglePages2" class="collapse unstyled">
+                                        <li><a href="{% url 'users:project_list' %}"><i class="icon-inbox"></i>Project List </a></li>
+                                        <li><a href="{% url 'users:project_type_list' %}"><i class="icon-inbox"></i>Project Type </a></li>
+
+                                    </ul>
+                                </li>
+
+                            </ul>
+
+
+
+                        </div>
+                        <!--/.sidebar-->
+                    </div>
+                    <!-- Changing Part Start-->
+
+
+                    <!-- Changing Part End-->
+
