@@ -59,7 +59,7 @@ class RoleForm(forms.ModelForm):
 
 class ProjectTypeForm(forms.ModelForm):
     class Meta:
-        model = ProjectType
+        model = Project_Type
         fields = ('name', 'code', 'details')
         widgets = {
             'name': forms.TextInput(attrs={"class": 'span8', 'required' : 'required','placeholder': 'Name'}),
@@ -69,7 +69,7 @@ class ProjectTypeForm(forms.ModelForm):
 
 class UpdateProjectTypeForm(forms.ModelForm):
     class Meta:
-        model = ProjectType
+        model = Project_Type
         fields = ('name', 'code', 'details')
 
         widgets = {
@@ -81,7 +81,7 @@ class UpdateProjectTypeForm(forms.ModelForm):
 
 class AddProjectForm(forms.ModelForm):
     class Meta:
-        model = ProjectInfo
+        model = Project_Info
         fields = ('title', 'code', 'team_size', 'duration', 'response_day', 'budget', 'revenue_plan', 'target_revenue', 'additional_cost', 'type','details')
 
         widgets = {
@@ -101,7 +101,7 @@ class AddProjectForm(forms.ModelForm):
 
 class UpdateProjectForm(forms.ModelForm):
     class Meta:
-        model = ProjectInfo
+        model = Project_Info
         fields = ('title', 'code', 'team_size', 'duration', 'response_day', 'budget', 'revenue_plan', 'target_revenue', 'additional_cost', 'type','details')
 
         widgets = {

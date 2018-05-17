@@ -229,8 +229,8 @@ class ProjectDetailsView(CreateAPIView):
         project_id = request.POST['project_id']
 
         try:
-            project_details = ProjectInfo.objects.get(pk=project_id)
-        except ProjectInfo.DoesNotExist:
+            project_details = Project_Info.objects.get(pk=project_id)
+        except Project_Info.DoesNotExist:
             return Response({'message': 'project Does Not Exist', 'status_code': '400'})
 
 
@@ -256,7 +256,7 @@ class ProjectListView(CreateAPIView):
 
 
 
-        project_lists = ProjectInfo.objects.all()
+        project_lists = Project_Info.objects.all()
 
         project_response = list()
         for project_list in project_lists:
@@ -294,49 +294,89 @@ class AddProjectView(CreateAPIView):
             raise ValidationError({'message': 'Budget is needed', 'status_code': '400'})
         if 'revenue_plan' not in request.POST or request.POST['revenue_plan'] is '':
             raise ValidationError({'message': 'Revenue Plan is needed', 'status_code': '400'})
-        if 'duration' not in request.POST or request.POST['duration'] is '':
-            raise ValidationError({'message': 'Duration is needed', 'status_code': '400'})
-        if 'response_day' not in request.POST or request.POST['response_day'] is '':
-            raise ValidationError({'message': 'Response Day is needed', 'status_code': '400'})
-        if 'budget' not in request.POST or request.POST['budget'] is '':
-            raise ValidationError({'message': 'Budget is needed', 'status_code': '400'})
-        if 'revenue_plan' not in request.POST or request.POST['revenue_plan'] is '':
-            raise ValidationError({'message': 'Revenue Plan is needed', 'status_code': '400'})
+        if 'target_revenue' not in request.POST or request.POST['target_revenue'] is '':
+            raise ValidationError({'message': 'Target Revenue is needed', 'status_code': '400'})
+        if 'additional_cost' not in request.POST or request.POST['additional_cost'] is '':
+            raise ValidationError({'message': 'Additional Cost is needed', 'status_code': '400'})
+        if 'type' not in request.POST or request.POST['type'] is '':
+            raise ValidationError({'message': 'Type is needed', 'status_code': '400'})
+        if 'assigned_to' not in request.POST or request.POST['assigned_to'] is '':
+            raise ValidationError({'message': 'Assigned To is needed', 'status_code': '400'})
+        if 'assigned_by' not in request.POST or request.POST['assigned_by'] is '':
+            raise ValidationError({'message': 'Assigned By is needed', 'status_code': '400'})
+        # if 'modified_by' not in request.POST or request.POST['modified_by'] is '':
+        #     raise ValidationError({'message': 'Modified By is needed', 'status_code': '400'})
 
-
-
-        project_id = request.POST['project_id']
-        try:
-            project = ProjectInfo.objects.get(pk=project_id)
-        except ProjectInfo.DoesNotExist:
-            return Response({'message': 'project Does Not Exist', 'status_code': '400'})
-
-        assigned_by = request.POST['assigned_by']
-
-
-        assigned_to=(request.POST['assigned_to'])
-        new_assigned_to= assigned_to.split(",")
-
-        created_by = request.POST['created_by']
+        title = request.POST['title']
+        code = request.POST['code'] #unique
 
         try:
-            user = User.objects.get(first_name=created_by)
-        except ProjectInfo.DoesNotExist:
-            return Response({'message': 'User Does Not Exist', 'status_code': '400'})
+            project_code = Project_Info.objects.get(code=code)
+            return Response({'message': 'Project Code is already existed', 'status_code': '400'})
+
+        except Project_Info.DoesNotExist:
+            details = request.POST['details']
+            team_size = request.POST['team_size']
+            duration = request.POST['duration']
+            response_day = request.POST['response_day']
+            budget = request.POST['budget']
+            revenue_plan = request.POST['revenue_plan']
+            target_revenue = request.POST['target_revenue']
+            additional_cost = request.POST['additional_cost']
+            type = request.POST['type'] #foreign
+            try:
+                project_type = Project_Type.objects.get(pk=type)
+            except Project_Type.DoesNotExist:
+                return Response({'message': 'project Type Does Not Exist', 'status_code': '400'})
+            assigned_by = request.POST['assigned_by']
+            try:
+                project_assigned_by = User.objects.get(pk=assigned_by)
+            except User.DoesNotExist:
+                return Response({'message': 'Assigned By Does Not Exist', 'status_code': '400'})
 
 
-        for person in new_assigned_to:
-            assign_project = ProjectManager.objects.create(
-                project_id = project,
-                assigned_by = assigned_by,
-                assigned_to = person,
-                created_by = user,
-                modified_by = user,
-                created_at = timezone.now(),
+            create_project_info = Project_Info.objects.create(
+                title=title,
+                code=code,
+                details=details,
+                team_size=team_size,
+                duration=duration,
+                response_day=response_day,
+                budget = budget,
+                revenue_plan=revenue_plan,
+                target_revenue=target_revenue,
+                additional_cost=additional_cost,
+                type=project_type,
+                created_at=timezone.now(),
                 modified_at = timezone.now(),
+                created_by = project_assigned_by,
+                modified_by = project_assigned_by
 
             )
-        return JsonResponse({'message': 'suceess', 'status_code': '200'})
+            assigned_to = request.POST['assigned_to'] #foreign
+            assigned_to = assigned_to.split("[")
+            assigned_to = assigned_to[1].split("]")
+            assigned_to = assigned_to[0].split(",")
+
+            for person in assigned_to:
+                print(person)
+                try:
+                    project_assigned_to = User.objects.get(pk=person)
+                    create_project_manager = Project_Manager.objects.create(
+                        project_id=create_project_info.id,
+                        assigned_by=project_assigned_by,
+                        assigned_to=project_assigned_to,
+                        created_at=timezone.now(),
+                        modified_at=timezone.now(),
+                        created_by=project_assigned_by,
+                        modified_by=project_assigned_by
+
+                    )
+
+                except User.DoesNotExist:
+                    return Response({'message': 'Assignee' + person + 'Does Not Exist', 'status_code': '400'})
+            return JsonResponse({'message': 'suceess', 'status_code': '200'})
+
 
 class ProjectTypeView(CreateAPIView):
     serializer_class = ProjectTypeSerializer
@@ -344,8 +384,8 @@ class ProjectTypeView(CreateAPIView):
     def post(self, request, format=None):
 
         try:
-            all_project_type = ProjectType.objects.all()
-        except ProjectType.DoesNotExist:
+            all_project_type = Project_Type.objects.all()
+        except Project_Type.DoesNotExist:
             return Response({'message': ' No Project Exist', 'status_code': '400'})
 
         project_type = list()
@@ -397,7 +437,7 @@ class UserProjectListView(CreateAPIView):
         user_id = request.POST['user_id']
 
         try:
-            user_all_project = ProjectInfo.objects.filter(created_by_id=user_id)
+            user_all_project = Project_Info.objects.filter(created_by_id=user_id)
         except User.DoesNotExist:
             return Response({'message': 'No Project Exist For The User', 'status_code': '400'})
 

@@ -9,16 +9,16 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProjectInfo
+        model = Project_Info
         fields = ('title', 'code', 'team_size', 'duration', 'response_day', 'budget', 'revenue_plan', 'target_revenue', 'additional_cost', 'type', 'details')
 
 class ProjectManagerSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProjectManager
+        model = Project_Manager
         fields = ('project_id', 'assigned_by', 'assigned_to', 'created_at', 'modified_at', 'created_by', 'modified_by', 'status')
 
 class ProjectTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProjectType
+        model = Project_Type
         fields = (
         'name', 'code', 'details', 'created_at', 'modified_at', 'created_by', 'modified_by', 'status')

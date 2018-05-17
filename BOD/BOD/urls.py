@@ -21,7 +21,7 @@ from django.urls import path, include
 
 urlpatterns = [
     re_path('^$', login, name='login'),
-    re_path('users/', include('users.urls')),
-    #path('users/', include('users.urls')),
+    #re_path('users/', include('users.urls')),
+    path('users/', include('users.urls')),
     path('api/', include('AllApp.urls')),
 ]

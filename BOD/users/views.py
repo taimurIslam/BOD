@@ -240,7 +240,7 @@ def project_list(request):
     arg['user_role'] = request.session['role_title']
     arg['browser_title'] = 'Project List'
     arg['heading_title'] = 'Project List'
-    arg['projects'] = ProjectInfo.objects.all()
+    arg['projects'] = Project_Info.objects.all()
     return render(request, 'projects/project_list.html', arg )
 
 
@@ -253,7 +253,7 @@ def project_type_list(request):
     arg['user_role'] = request.session['role_title']
     arg['browser_title'] = 'Project Type List'
     arg['heading_title'] = 'Project Type List'
-    arg['projects_type'] = ProjectType.objects.all()
+    arg['projects_type'] = Project_Type.objects.all()
     return render(request, 'projects/project_type_list.html', arg)
 
 def add_new_project(request):
@@ -316,8 +316,8 @@ def add_new_project_type(request):
 def delete_project(request, pk):
 
     try:
-        project = ProjectInfo.objects.get(pk=pk)
-    except ProjectInfo.DoesNotExist:
+        project = Project_Info.objects.get(pk=pk)
+    except Project_Info.DoesNotExist:
         messages.error(request, 'Project does not exist anymore')
 
     project.delete()
@@ -327,8 +327,8 @@ def delete_project(request, pk):
 def delete_project_type(request, pk):
 
     try:
-        projectType = ProjectType.objects.get(pk=pk)
-    except ProjectType.DoesNotExist:
+        projectType = Project_Type.objects.get(pk=pk)
+    except Project_Type.DoesNotExist:
         messages.error(request, 'Project Type does not exist anymore')
 
     projectType.delete()
@@ -337,8 +337,8 @@ def delete_project_type(request, pk):
 
 def edit_project(request, pk):
     try:
-        project = ProjectInfo.objects.get(pk=pk)
-    except ProjectInfo.DoesNotExist:
+        project = Project_Info.objects.get(pk=pk)
+    except Project_Info.DoesNotExist:
         messages.error(request, 'Project does not exist anymore')
 
 
@@ -379,8 +379,8 @@ def edit_project(request, pk):
 
 def edit_project_type(request, pk):
     try:
-        projectType = ProjectType.objects.get(pk=pk)
-    except ProjectType.DoesNotExist:
+        projectType = Project_Type.objects.get(pk=pk)
+    except Project_Type.DoesNotExist:
         messages.error(request, 'Project type does not exist anymore')
 
 

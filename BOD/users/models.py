@@ -66,7 +66,7 @@ class User(models.Model):
         pass
 #------------------------------------------------------#
 
-class ProjectType(models.Model):
+class Project_Type(models.Model):
     name = models.CharField(max_length=50)
     code = models.CharField(max_length=50, unique=True)
     details = models.CharField(max_length=50)
@@ -79,7 +79,7 @@ class ProjectType(models.Model):
     def __str__(self):
         return self.name
 
-class ProjectInfo(models.Model):
+class Project_Info(models.Model):
     title = models.CharField(max_length=50)
     code = models.CharField(max_length=20, unique=True)
     team_size = models.IntegerField()
@@ -89,7 +89,7 @@ class ProjectInfo(models.Model):
     revenue_plan = models.FloatField()
     target_revenue = models.FloatField()
     additional_cost = models.FloatField()
-    type = models.ForeignKey('ProjectType', default=1, on_delete=models.CASCADE)
+    type = models.ForeignKey('Project_Type', default=1, on_delete=models.CASCADE)
     details = models.TextField()
     created_at = models.DateTimeField(editable=True, null=True)
     modified_at = models.DateTimeField(auto_now=True, null=True)
@@ -108,8 +108,8 @@ class ProjectInfo(models.Model):
         )
 
 
-class ProjectManager(models.Model):
-    project_id = models.ForeignKey('users.ProjectInfo', default=1, on_delete=models.CASCADE)
+class Project_Manager(models.Model):
+    project = models.ForeignKey('users.Project_Info', default=1, on_delete=models.CASCADE)
     assigned_by = models.ForeignKey('users.User', default=1, on_delete=models.CASCADE, related_name='assigned_by+')
     assigned_to = models.ForeignKey('users.User', default=1, on_delete=models.CASCADE, related_name='assigned_to+')
     created_at = models.DateTimeField(editable=True, null=True)
